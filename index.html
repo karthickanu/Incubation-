@@ -1,0 +1,1694 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ApexOn LLC | Managed IT, AI & Intelligent Automation</title>
+  
+  <!-- SEO & Open Graph Meta Tags -->
+  <meta name="description" content="ApexOn LLC (Formerly V-Turn Technologies) provides enterprise-grade Managed IT, GCC Deployment, AI Agent Engineering, and Cloud Infrastructure Solutions globally.">
+  <meta name="keywords" content="ApexOn, Managed IT Services, GCC Deployment, AI Engineering, Automation, Cloud Infrastructure, Cybersecurity">
+  <meta name="author" content="ApexOn LLC">
+  <meta name="robots" content="index, follow">
+  
+  <meta property="og:title" content="ApexOn LLC | Transforming Businesses Through IT & AI">
+  <meta property="og:description" content="Enterprise Managed IT, AI Agent Engineering & GCC Operations across USA, UK, Australia, Brazil, and India.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://apexon.work.gd">
+  
+  <!-- Favicon Placeholder (SVG Data URI) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%2300f2fe'/><stop offset='100%' stop-color='%234facfe'/></linearGradient></defs><circle cx='50' cy='50' r='45' fill='url(%23g)'/><path d='M30 65 L50 30 L70 65 L58 65 L50 48 L42 65 Z' fill='%23ffffff'/></svg>">
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "ApexOn LLC",
+    "alternateName": "V-Turn Technologies",
+    "url": "https://apexon.work.gd",
+    "logo": "https://apexon.work.gd/logo.png",
+    "email": "info@apexon.work.gd",
+    "description": "Transforming Businesses Through Managed IT, AI & Intelligent Automation",
+    "address": [
+      {
+        "@type": "PostalAddress",
+        "streetAddress": "TIDEL Park Coimbatore, ELCOT-SEZ, IT/ITES, Villankurichi Road, Aerodrome Post",
+        "addressLocality": "Coimbatore",
+        "addressRegion": "TN",
+        "postalCode": "641014",
+        "addressCountry": "IN"
+      },
+      {
+        "@type": "PostalAddress",
+        "streetAddress": "Manyata Tech Park, Nagawara, Outer Ring Road",
+        "addressLocality": "Bengaluru",
+        "addressRegion": "KA",
+        "postalCode": "560045",
+        "addressCountry": "IN"
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    /* ==========================================================================
+       1. CSS VARIABLES & SYSTEM SETUP (Liquid Glass & Apple Aesthetic)
+       ========================================================================== */
+    :root {
+      --bg-base: #030712;
+      --bg-surface: rgba(17, 24, 39, 0.4);
+      --glass-bg: rgba(255, 255, 255, 0.03);
+      --glass-bg-hover: rgba(255, 255, 255, 0.07);
+      --glass-border: rgba(255, 255, 255, 0.12);
+      --glass-border-glow: rgba(56, 189, 248, 0.4);
+      --glass-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      --glass-blur: blur(24px);
+
+      --accent-primary: #38bdf8;
+      --accent-secondary: #818cf8;
+      --accent-tertiary: #c084fc;
+      
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --text-dim: #6b7280;
+
+      --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      --transition-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      font-family: var(--font-family);
+      overflow-x: hidden;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Ambient Dynamic Gradient Background */
+    #ambient-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* ==========================================================================
+       2. TYPOGRAPHY & LAYOUT UTILITIES
+       ========================================================================== */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    section {
+      padding: 7rem 0;
+      position: relative;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 750px;
+      margin: 0 auto 4rem auto;
+    }
+
+    .section-subtitle {
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 3px;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-tertiary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.75rem;
+      display: inline-block;
+    }
+
+    .section-title {
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      color: #ffffff;
+      margin-bottom: 1rem;
+    }
+
+    .section-description {
+      font-size: 1.125rem;
+      color: var(--text-muted);
+    }
+
+    /* Liquid Glass Card Styling */
+    .glass-card {
+      background: var(--glass-bg);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 2.5rem;
+      box-shadow: var(--glass-shadow);
+      transition: all 0.4s var(--transition-smooth);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .glass-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+      transform: skewX(-20deg);
+      transition: 0.75s;
+    }
+
+    .glass-card:hover::before {
+      left: 150%;
+    }
+
+    .glass-card:hover {
+      background: var(--glass-bg-hover);
+      border-color: var(--glass-border-glow);
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 0 30px 60px rgba(56, 189, 248, 0.15);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.9rem 2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 99px;
+      text-decoration: none;
+      transition: all 0.3s var(--transition-smooth);
+      cursor: pointer;
+      border: none;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      color: #000;
+      font-weight: 700;
+      box-shadow: 0 10px 25px rgba(56, 189, 248, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 35px rgba(56, 189, 248, 0.5);
+      filter: brightness(1.1);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-main);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: var(--text-main);
+      transform: translateY(-2px);
+    }
+
+    /* ==========================================================================
+       3. LOADING SCREEN
+       ========================================================================== */
+    #loader {
+      position: fixed;
+      inset: 0;
+      background: var(--bg-base);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+
+    .loader-spinner {
+      width: 60px;
+      height: 60px;
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      border-top-color: var(--accent-primary);
+      border-radius: 50%;
+      animation: spin 1s infinite linear;
+      margin-bottom: 1.5rem;
+    }
+
+    .loader-text {
+      font-size: 1.2rem;
+      letter-spacing: 4px;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ==========================================================================
+       4. NAVIGATION BAR (Sticky Liquid Glass)
+       ========================================================================== */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 1.25rem 0;
+      transition: all 0.4s var(--transition-smooth);
+    }
+
+    .navbar.scrolled {
+      padding: 0.8rem 0;
+      background: rgba(3, 7, 18, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .nav-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+    }
+
+    .brand-logo {
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .brand-logo span {
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-tertiary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-subtitle {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+      font-weight: 500;
+      margin-top: -2px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      color: var(--text-main);
+    }
+
+    .mobile-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* ==========================================================================
+       5. HERO SECTION
+       ========================================================================== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 8rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .hero-title {
+      font-size: clamp(2.8rem, 5.5vw, 4.5rem);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title span {
+      background: linear-gradient(135deg, #ffffff 30%, var(--accent-primary) 70%, var(--accent-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-description {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      margin-bottom: 2.5rem;
+      max-width: 620px;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    /* Interactive Liquid Glass Visual Graphic */
+    .hero-visual {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .glass-orb-container {
+      width: 320px;
+      height: 320px;
+      position: relative;
+    }
+
+    .glass-orb {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(192, 132, 252, 0.05));
+      backdrop-filter: blur(40px);
+      -webkit-backdrop-filter: blur(40px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 0 80px rgba(56, 189, 248, 0.25);
+      animation: floatOrb 8s ease-in-out infinite alternate;
+    }
+
+    .floating-glass-card {
+      position: absolute;
+      padding: 1rem 1.5rem;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.9rem;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      animation: floatCard 6s ease-in-out infinite alternate;
+    }
+
+    .card-1 { top: 10%; left: -20%; animation-delay: 0s; }
+    .card-2 { bottom: 15%; right: -10%; animation-delay: -2s; }
+    .card-3 { top: 60%; left: -10%; animation-delay: -4s; }
+
+    @keyframes floatOrb {
+      0% { transform: translateY(0) rotate(0deg) scale(1); }
+      100% { transform: translateY(-20px) rotate(10deg) scale(1.05); }
+    }
+
+    @keyframes floatCard {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-15px); }
+    }
+
+    /* ==========================================================================
+       6. ABOUT US SECTION
+       ========================================================================== */
+    .about-card {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .about-text p {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.8;
+    }
+
+    /* ==========================================================================
+       7. SERVICES SECTION
+       ========================================================================== */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 2rem;
+    }
+
+    .service-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.15), rgba(129, 140, 248, 0.15));
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      color: var(--accent-primary);
+    }
+
+    .service-card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      color: #fff;
+    }
+
+    .service-card p {
+      color: var(--text-muted);
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    /* ==========================================================================
+       8. WHY CHOOSE APEXON (Stats & Features)
+       ========================================================================== */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 4rem;
+    }
+
+    .stat-card {
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    .stat-number {
+      font-size: 3rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-tertiary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+    }
+
+    .features-highlights {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+    }
+
+    .feature-pill {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--glass-border);
+      padding: 1rem;
+      border-radius: 16px;
+      text-align: center;
+      font-weight: 600;
+      color: var(--text-main);
+      backdrop-filter: blur(10px);
+    }
+
+    /* ==========================================================================
+       9. INDUSTRIES WE SERVE
+       ========================================================================== */
+    .industries-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .industry-card {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      padding: 1.75rem;
+    }
+
+    .industry-icon {
+      font-size: 2rem;
+    }
+
+    .industry-card h4 {
+      font-size: 1.15rem;
+      color: #fff;
+    }
+
+    /* ==========================================================================
+       10. GLOBAL PRESENCE & MAP
+       ========================================================================== */
+    .map-container {
+      position: relative;
+      width: 100%;
+      height: 480px;
+      background: rgba(15, 23, 42, 0.4);
+      border-radius: 28px;
+      border: 1px solid var(--glass-border);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #world-map-svg {
+      width: 100%;
+      height: 100%;
+      max-width: 950px;
+    }
+
+    .map-node {
+      fill: var(--accent-primary);
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .map-node:hover {
+      transform: scale(1.5);
+      fill: var(--accent-tertiary);
+    }
+
+    .pulse-ring {
+      fill: none;
+      stroke: var(--accent-primary);
+      stroke-width: 1.5;
+      animation: mapPulse 2s infinite ease-out;
+      transform-origin: center;
+    }
+
+    @keyframes mapPulse {
+      0% { r: 4; opacity: 1; }
+      100% { r: 24; opacity: 0; }
+    }
+
+    .connection-line {
+      stroke: url(#lineGradient);
+      stroke-width: 1.5;
+      stroke-dasharray: 6;
+      animation: dashMove 30s linear infinite;
+    }
+
+    @keyframes dashMove {
+      to { stroke-dashoffset: -1000; }
+    }
+
+    /* ==========================================================================
+       11. CAREERS SECTION & RECRUITMENT PORTAL
+       ========================================================================== */
+    .careers-portal {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .form-group.full-width {
+      grid-column: span 2;
+    }
+
+    .form-group label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .form-control {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 0.85rem 1.2rem;
+      color: #fff;
+      font-family: inherit;
+      font-size: 0.95rem;
+      outline: none;
+      transition: all 0.3s;
+    }
+
+    .form-control:focus {
+      border-color: var(--accent-primary);
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
+    }
+
+    .form-control option {
+      background-color: #0f172a;
+      color: #fff;
+    }
+
+    /* Drag & Drop File Upload */
+    .file-dropzone {
+      border: 2px dashed var(--glass-border);
+      border-radius: 16px;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.02);
+      transition: all 0.3s;
+    }
+
+    .file-dropzone:hover, .file-dropzone.dragover {
+      border-color: var(--accent-primary);
+      background: rgba(56, 189, 248, 0.05);
+    }
+
+    .dropzone-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      color: var(--accent-primary);
+    }
+
+    .file-input-hidden {
+      display: none;
+    }
+
+    .file-name-display {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--accent-primary);
+      font-weight: 600;
+    }
+
+    .form-success-message {
+      display: none;
+      background: rgba(34, 197, 94, 0.15);
+      border: 1px solid rgba(34, 197, 94, 0.4);
+      color: #4ade80;
+      padding: 1.5rem;
+      border-radius: 16px;
+      text-align: center;
+      margin-top: 1.5rem;
+      font-weight: 600;
+    }
+
+    /* ==========================================================================
+       12. TESTIMONIALS CAROUSEL
+       ========================================================================== */
+    .testimonial-carousel {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      min-height: 250px;
+    }
+
+    .testimonial-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.6s var(--transition-smooth);
+      transform: translateX(30px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .testimonial-slide.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
+    }
+
+    .testimonial-quote {
+      font-size: 1.4rem;
+      font-style: italic;
+      color: #fff;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .testimonial-author {
+      font-weight: 700;
+      color: var(--accent-primary);
+    }
+
+    .carousel-controls {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .carousel-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .carousel-dot.active {
+      background: var(--accent-primary);
+      width: 32px;
+      border-radius: 99px;
+    }
+
+    /* ==========================================================================
+       13. CONTACT SECTION
+       ========================================================================== */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+
+    .contact-card h3 {
+      font-size: 1.3rem;
+      color: #fff;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .contact-info-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .contact-info-list a {
+      color: var(--accent-primary);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .contact-info-list a:hover {
+      text-decoration: underline;
+    }
+
+    /* ==========================================================================
+       14. FOOTER
+       ========================================================================== */
+    footer {
+      background: rgba(3, 7, 18, 0.95);
+      border-top: 1px solid var(--glass-border);
+      padding: 5rem 0 2rem 0;
+      position: relative;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr repeat(3, 1fr);
+      gap: 3rem;
+      margin-bottom: 4rem;
+    }
+
+    .footer-brand p {
+      color: var(--text-muted);
+      margin-top: 1rem;
+      max-width: 320px;
+      font-size: 0.95rem;
+    }
+
+    .footer-column h4 {
+      color: #fff;
+      font-size: 1.05rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent-primary);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 2rem;
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.88rem;
+    }
+
+    /* ==========================================================================
+       15. RESPONSIVE BREAKPOINTS
+       ========================================================================== */
+    @media (max-width: 992px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .hero-description {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .hero-cta {
+        justify-content: center;
+      }
+      .hero-visual {
+        margin-top: 3rem;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 80%;
+        max-width: 300px;
+        height: 100vh;
+        background: rgba(15, 23, 42, 0.98);
+        backdrop-filter: blur(25px);
+        flex-direction: column;
+        justify-content: center;
+        transition: right 0.4s var(--transition-smooth);
+        box-shadow: -10px 0 30px rgba(0,0,0,0.8);
+      }
+      .nav-links.active {
+        right: 0;
+      }
+      .mobile-toggle {
+        display: block;
+        z-index: 1001;
+      }
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      .form-group.full-width {
+        grid-column: span 1;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Animated Canvas -->
+  <canvas id="ambient-canvas"></canvas>
+
+  <!-- Loading Screen -->
+  <div id="loader">
+    <div class="loader-spinner"></div>
+    <div class="loader-text">APEXON LLC</div>
+  </div>
+
+  <!-- Dynamic Glass Navbar -->
+  <nav class="navbar" id="navbar">
+    <div class="container nav-container">
+      <a href="#home" class="brand">
+        <div class="brand-logo">Apex<span>On</span></div>
+        <div class="brand-subtitle">Formerly V-Turn Technologies</div>
+      </a>
+      <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle menu">☰</button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#home" class="nav-link active">Home</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#services" class="nav-link">Services</a></li>
+        <li><a href="#why-us" class="nav-link">Why Us</a></li>
+        <li><a href="#global" class="nav-link">Global</a></li>
+        <li><a href="#careers" class="nav-link">Careers</a></li>
+        <li><a href="#contact" class="btn btn-primary" style="padding: 0.5rem 1.25rem; font-size: 0.88rem;">Contact Us</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section class="hero" id="home">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-content">
+          <h1 class="hero-title">Enterprise IT. <span>AI. Automation.</span></h1>
+          <p class="hero-description">
+            ApexOn LLC empowers businesses with Managed IT Services, Global Capability Center Deployment, AI Agent Engineering, and End-to-End Enterprise Technology Solutions.
+          </p>
+          <div class="hero-cta">
+            <a href="#contact" class="btn btn-primary">Contact Us <span>→</span></a>
+            <a href="#services" class="btn btn-secondary">Explore Services</a>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="glass-orb-container">
+            <div class="glass-orb"></div>
+            <div class="floating-glass-card card-1">
+              <span>⚡</span> AI Workflow Orchestrated
+            </div>
+            <div class="floating-glass-card card-2">
+              <span>🌐</span> GCC Operations Active
+            </div>
+            <div class="floating-glass-card card-3">
+              <span>🛡️</span> 99.9% Uptime Secured
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT US SECTION -->
+  <section id="about">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Who We Are</span>
+        <h2 class="section-title">About ApexOn</h2>
+      </div>
+      <div class="glass-card about-card">
+        <div class="about-text">
+          <p>
+            ApexOn LLC, formerly known as V-Turn Technologies, delivers enterprise-grade IT solutions for modern businesses across the globe.
+          </p>
+          <p>
+            We specialize in helping small and medium enterprises build resilient technology ecosystems through Managed IT Services, AI-driven automation, GCC deployment, cloud modernization, and strategic technology consulting.
+          </p>
+          <p>
+            With clients spanning North America, Europe, Australia, South America, and India, we focus on delivering measurable business outcomes through innovation and operational excellence.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES SECTION -->
+  <section id="services">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Core Capabilities</span>
+        <h2 class="section-title">Enterprise Services</h2>
+        <p class="section-description">End-to-end technology solutions tailored to scale your global operations.</p>
+      </div>
+      <div class="services-grid">
+        <div class="glass-card service-card">
+          <div class="service-icon">🖥️</div>
+          <h3>Managed IT Support</h3>
+          <p>24x7 monitoring, endpoint management, infrastructure support, and proactive maintenance to guarantee system resilience.</p>
+        </div>
+        <div class="glass-card service-card">
+          <div class="service-icon">🏢</div>
+          <h3>GCC Deployment</h3>
+          <p>Build and scale offshore and nearshore Global Capability Centers with robust governance, compliance, and operational readiness.</p>
+        </div>
+        <div class="glass-card service-card">
+          <div class="service-icon">🤖</div>
+          <h3>AI & ML Agent Development</h3>
+          <p>Custom AI agents, intelligent automation, automated workflow orchestration, and enterprise machine learning deployments.</p>
+        </div>
+        <div class="glass-card service-card">
+          <div class="service-icon">☁️</div>
+          <h3>Cloud & Infrastructure</h3>
+          <p>Azure, AWS, Microsoft 365, virtualization, enterprise security hardening, and seamless cloud migration services.</p>
+        </div>
+        <div class="glass-card service-card">
+          <div class="service-icon">🚀</div>
+          <h3>IT Support for SMEs</h3>
+          <p>Affordable, predictable, and scalable enterprise-level IT support designed specifically for fast-growing businesses.</p>
+        </div>
+        <div class="glass-card service-card">
+          <div class="service-icon">🔒</div>
+          <h3>Cybersecurity & Compliance</h3>
+          <p>Comprehensive risk assessment, proactive threat monitoring, security hardening, and regulatory compliance readiness.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY CHOOSE APEXON SECTION -->
+  <section id="why-us">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Proven Impact</span>
+        <h2 class="section-title">Why Choose ApexOn</h2>
+      </div>
+      <div class="stats-grid">
+        <div class="glass-card stat-card">
+          <div class="stat-number" data-target="100">0</div>
+          <div class="stat-label">Projects Delivered</div>
+        </div>
+        <div class="glass-card stat-card">
+          <div class="stat-number" data-target="5">0</div>
+          <div class="stat-label">Countries Served</div>
+        </div>
+        <div class="glass-card stat-card">
+          <div class="stat-number" data-precision="1" data-target="99.9">0</div>
+          <div class="stat-label">Service Availability %</div>
+        </div>
+        <div class="glass-card stat-card">
+          <div class="stat-number" data-suffix="x7" data-target="24">0</div>
+          <div class="stat-label">Real-Time Monitoring</div>
+        </div>
+      </div>
+      <div class="features-highlights">
+        <div class="feature-pill">24x7 Support</div>
+        <div class="feature-pill">Global Delivery Model</div>
+        <div class="feature-pill">AI-First Engineering</div>
+        <div class="feature-pill">Enterprise Security</div>
+        <div class="feature-pill">Rapid Deployment</div>
+        <div class="feature-pill">Cost Optimization</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INDUSTRIES WE SERVE -->
+  <section id="industries">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Domain Expertise</span>
+        <h2 class="section-title">Industries We Serve</h2>
+      </div>
+      <div class="industries-grid">
+        <div class="glass-card industry-card">
+          <span class="industry-icon">🏥</span>
+          <h4>Healthcare</h4>
+        </div>
+        <div class="glass-card industry-card">
+          <span class="industry-icon">🏭</span>
+          <h4>Manufacturing</h4>
+        </div>
+        <div class="glass-card industry-card">
+          <span class="industry-icon">🛍️</span>
+          <h4>Retail</h4>
+        </div>
+        <div class="glass-card industry-card">
+          <span class="industry-icon">🚚</span>
+          <h4>Logistics</h4>
+        </div>
+        <div class="glass-card industry-card">
+          <span class="industry-icon">🏦</span>
+          <h4>Financial Services</h4>
+        </div>
+        <div class="glass-card industry-card">
+          <span class="industry-icon">💻</span>
+          <h4>Technology Startups</h4>
+        </div>
+        <div class="glass-card industry-card">
+          <span class="industry-icon">🎓</span>
+          <h4>Education</h4>
+        </div>
+        <div class="glass-card industry-card">
+          <span class="industry-icon">⚖️</span>
+          <h4>Professional Services</h4>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GLOBAL PRESENCE SECTION -->
+  <section id="global">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Worldwide Footprint</span>
+        <h2 class="section-title">Global Presence</h2>
+        <p class="section-description">Serving enterprise clients across key global technology corridors.</p>
+      </div>
+      <div class="map-container">
+        <svg id="world-map-svg" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.8"/>
+              <stop offset="100%" stop-color="#c084fc" stop-opacity="0.2"/>
+            </linearGradient>
+          </defs>
+          
+          <!-- Simplified Stylized World Continents Outlines -->
+          <path fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.1)" d="M150,120 Q200,80 300,100 T400,180 T300,280 T180,250 Z M450,100 Q550,70 650,110 T600,250 T480,220 Z M650,150 Q800,120 900,200 T850,380 T700,320 Z M220,320 Q280,300 320,380 T260,480 T190,400 Z"/>
+
+          <!-- Region Connection Lines -->
+          <!-- USA to UK -->
+          <path class="connection-line" d="M 230 170 Q 340 100 470 140"/>
+          <!-- UK to India -->
+          <path class="connection-line" d="M 470 140 Q 600 150 710 240"/>
+          <!-- USA to Brazil -->
+          <path class="connection-line" d="M 230 170 Q 260 270 300 370"/>
+          <!-- India to Australia -->
+          <path class="connection-line" d="M 710 240 Q 780 320 830 380"/>
+
+          <!-- Interactive Region Nodes -->
+          <!-- USA -->
+          <g transform="translate(230, 170)">
+            <circle class="pulse-ring" cx="0" cy="0" r="10"/>
+            <circle class="map-node" cx="0" cy="0" r="6"/>
+            <text x="12" y="4" fill="#fff" font-size="12" font-weight="600">United States</text>
+          </g>
+
+          <!-- UK -->
+          <g transform="translate(470, 140)">
+            <circle class="pulse-ring" cx="0" cy="0" r="10"/>
+            <circle class="map-node" cx="0" cy="0" r="6"/>
+            <text x="12" y="4" fill="#fff" font-size="12" font-weight="600">United Kingdom</text>
+          </g>
+
+          <!-- Brazil -->
+          <g transform="translate(300, 370)">
+            <circle class="pulse-ring" cx="0" cy="0" r="10"/>
+            <circle class="map-node" cx="0" cy="0" r="6"/>
+            <text x="12" y="4" fill="#fff" font-size="12" font-weight="600">Brazil</text>
+          </g>
+
+          <!-- India -->
+          <g transform="translate(710, 240)">
+            <circle class="pulse-ring" cx="0" cy="0" r="10"/>
+            <circle class="map-node" cx="0" cy="0" r="7" fill="#38bdf8"/>
+            <text x="14" y="4" fill="#38bdf8" font-size="13" font-weight="700">Pan India (HQ Branches)</text>
+          </g>
+
+          <!-- Australia -->
+          <g transform="translate(830, 380)">
+            <circle class="pulse-ring" cx="0" cy="0" r="10"/>
+            <circle class="map-node" cx="0" cy="0" r="6"/>
+            <text x="12" y="4" fill="#fff" font-size="12" font-weight="600">Australia</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- CAREERS SECTION -->
+  <section id="careers">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Careers</span>
+        <h2 class="section-title">Join ApexOn</h2>
+        <p class="section-description">We are constantly looking for talented professionals who are passionate about technology, innovation, and customer success.</p>
+      </div>
+
+      <div class="glass-card careers-portal">
+        <form id="career-form" novalidate>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="fullName">Full Name *</label>
+              <input type="text" id="fullName" class="form-control" placeholder="John Doe" required>
+            </div>
+            <div class="form-group">
+              <label for="contactNumber">Contact Number *</label>
+              <input type="tel" id="contactNumber" class="form-control" placeholder="+1 (555) 000-0000" required>
+            </div>
+            <div class="form-group">
+              <label for="emailAddress">Email Address *</label>
+              <input type="email" id="emailAddress" class="form-control" placeholder="john@example.com" required>
+            </div>
+            <div class="form-group">
+              <label for="linkedinUrl">LinkedIn Profile URL</label>
+              <input type="url" id="linkedinUrl" class="form-control" placeholder="https://linkedin.com/in/username">
+            </div>
+            <div class="form-group">
+              <label for="roleApplying">Role Applying For *</label>
+              <select id="roleApplying" class="form-control" required>
+                <option value="" disabled selected>Select a Position</option>
+                <option value="IT Support Engineer">IT Support Engineer</option>
+                <option value="Systems Administrator">Systems Administrator</option>
+                <option value="Network Engineer">Network Engineer</option>
+                <option value="Cloud Engineer">Cloud Engineer</option>
+                <option value="DevOps Engineer">DevOps Engineer</option>
+                <option value="AI Engineer">AI Engineer</option>
+                <option value="Machine Learning Engineer">Machine Learning Engineer</option>
+                <option value="Cybersecurity Analyst">Cybersecurity Analyst</option>
+                <option value="Project Manager">Project Manager</option>
+                <option value="Business Analyst">Business Analyst</option>
+                <option value="GCC Operations Specialist">GCC Operations Specialist</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="yearsExperience">Years of Experience *</label>
+              <input type="number" id="yearsExperience" class="form-control" min="0" max="40" placeholder="e.g. 5" required>
+            </div>
+            <div class="form-group full-width">
+              <label for="currentLocation">Current Location *</label>
+              <input type="text" id="currentLocation" class="form-control" placeholder="City, Country" required>
+            </div>
+            <div class="form-group full-width">
+              <label for="coverLetter">Cover Letter</label>
+              <textarea id="coverLetter" class="form-control" rows="4" placeholder="Briefly describe your passion and achievements..."></textarea>
+            </div>
+
+            <!-- Drag & Drop File Upload Fields -->
+            <div class="form-group full-width">
+              <label>Upload Resume / CV *</label>
+              <div class="file-dropzone" id="dropzone-resume">
+                <div class="dropzone-icon">📄</div>
+                <div>Drag & Drop your Resume here or <strong>Browse File</strong></div>
+                <div class="file-name-display" id="resume-file-name"></div>
+                <input type="file" id="resumeFile" class="file-input-hidden" accept=".pdf,.doc,.docx" required>
+              </div>
+            </div>
+
+            <div class="form-group full-width">
+              <label>Upload Supporting Documents (Optional)</label>
+              <div class="file-dropzone" id="dropzone-docs">
+                <div class="dropzone-icon">📁</div>
+                <div>Drag & Drop Certifications / Portfolio or <strong>Browse File</strong></div>
+                <div class="file-name-display" id="docs-file-name"></div>
+                <input type="file" id="supportingDocsFile" class="file-input-hidden" accept=".pdf,.zip,.doc,.docx">
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 2rem;">Submit Application</button>
+        </form>
+
+        <div id="form-success" class="form-success-message">
+          🎉 Application Submitted Successfully! Our talent acquisition team will review your credentials and contact you shortly.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS SECTION -->
+  <section id="testimonials">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Client Endorsements</span>
+        <h2 class="section-title">What Leaders Say</h2>
+      </div>
+      <div class="glass-card testimonial-carousel">
+        <div class="testimonial-slide active">
+          <p class="testimonial-quote">"Outstanding IT support and exceptional responsiveness. ApexOn transformed our core infrastructure without a single minute of unexpected downtime."</p>
+          <div class="testimonial-author">VP of Infrastructure, Global Fintech</div>
+        </div>
+        <div class="testimonial-slide">
+          <p class="testimonial-quote">"Seamless GCC deployment that accelerated our growth exponentially. Their governance and operational excellence set a gold standard."</p>
+          <div class="testimonial-author">Chief Operating Officer, Enterprise Healthcare</div>
+        </div>
+        <div class="testimonial-slide">
+          <p class="testimonial-quote">"The AI automation solution significantly improved operational efficiency. Complex multi-step workflows now run autonomously in seconds."</p>
+          <div class="testimonial-author">Director of Engineering, Logistics Pioneer</div>
+        </div>
+
+        <div class="carousel-controls" id="carousel-dots">
+          <div class="carousel-dot active" data-index="0"></div>
+          <div class="carousel-dot" data-index="1"></div>
+          <div class="carousel-dot" data-index="2"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT SECTION -->
+  <section id="contact">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Get In Touch</span>
+        <h2 class="section-title">Contact ApexOn</h2>
+        <p class="section-description">Reach out to our global team for enterprise inquiries, support, or partnership opportunities.</p>
+      </div>
+
+      <div class="contact-grid">
+        <div class="glass-card contact-card">
+          <h3>📬 General & Support Enquiries</h3>
+          <ul class="contact-info-list">
+            <li><strong>Email:</strong> <a href="mailto:info@apexon.work.gd">info@apexon.work.gd</a></li>
+            <li><strong>Support:</strong> <a href="mailto:support@apexon.work.gd">support@apexon.work.gd</a></li>
+            <li><strong>Service Hours:</strong> 24x7x365 Global Operations</li>
+          </ul>
+        </div>
+
+        <div class="glass-card contact-card">
+          <h3>📍 Coimbatore Office</h3>
+          <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">
+            <strong>ApexOn LLC – Coimbatore Branch</strong><br>
+            TIDEL Park Coimbatore<br>
+            ELCOT-SEZ, IT/ITES, Villankurichi Road<br>
+            Aerodrome Post, Coimbatore – 641014<br>
+            Tamil Nadu, India
+          </p>
+        </div>
+
+        <div class="glass-card contact-card">
+          <h3>📍 Bangalore Office</h3>
+          <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">
+            <strong>ApexOn LLC – Bangalore Branch</strong><br>
+            Manyata Tech Park<br>
+            Nagawara, Outer Ring Road<br>
+            Bengaluru – 560045<br>
+            Karnataka, India
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="brand-logo">Apex<span>On</span> LLC</div>
+          <p>Transforming Businesses Through Managed IT, AI & Intelligent Automation.</p>
+          <p style="margin-top: 0.5rem; font-size: 0.82rem; color: var(--text-dim);">Formerly V-Turn Technologies</p>
+        </div>
+
+        <div class="footer-column">
+          <h4>Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#careers">Careers</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h4>Service Regions</h4>
+          <ul class="footer-links">
+            <li><a href="#global">United States</a></li>
+            <li><a href="#global">United Kingdom</a></li>
+            <li><a href="#global">Australia</a></li>
+            <li><a href="#global">Brazil</a></li>
+            <li><a href="#global">Pan India</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h4>Legal & Contact</h4>
+          <ul class="footer-links">
+            <li><a href="mailto:info@apexon.work.gd">info@apexon.work.gd</a></li>
+            <li><a href="mailto:support@apexon.work.gd">support@apexon.work.gd</a></li>
+            <li><a href="#about">Privacy Policy</a></li>
+            <li><a href="#about">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; <span id="year-field">2026</span> ApexOn LLC. All Rights Reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       JAVASCRIPT (VANILLA JS - NO EXTERNAL LIBRARIES)
+       ========================================================================== -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+      // 1. DYNAMIC YEAR UPDATE
+      document.getElementById('year-field').textContent = new Date().getFullYear();
+
+      // 2. LOADER FADE OUT
+      const loader = document.getElementById('loader');
+      setTimeout(() => {
+        loader.style.opacity = '0';
+        loader.style.visibility = 'hidden';
+      }, 500);
+
+      // 3. AMBIENT LIQUID GLASS CANVAS BACKGROUND
+      const canvas = document.getElementById('ambient-canvas');
+      const ctx = canvas.getContext('2d');
+      let width, height;
+      let particles = [];
+
+      function resizeCanvas() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      }
+
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
+
+      class Particle {
+        constructor() {
+          this.x = Math.random() * width;
+          this.y = Math.random() * height;
+          this.radius = Math.random() * 150 + 50;
+          this.vx = (Math.random() - 0.5) * 0.4;
+          this.vy = (Math.random() - 0.5) * 0.4;
+          this.color = Math.random() > 0.5 ? 'rgba(56, 189, 248, ' : 'rgba(129, 140, 248, ';
+          this.alpha = Math.random() * 0.08 + 0.02;
+        }
+
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+
+          if (this.x < -this.radius) this.x = width + this.radius;
+          if (this.x > width + this.radius) this.x = -this.radius;
+          if (this.y < -this.radius) this.y = height + this.radius;
+          if (this.y > height + this.radius) this.y = -this.radius;
+        }
+
+        draw() {
+          ctx.beginPath();
+          let gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius);
+          gradient.addColorStop(0, this.color + this.alpha + ')');
+          gradient.addColorStop(1, this.color + '0)');
+          ctx.fillStyle = gradient;
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      for (let i = 0; i < 15; i++) {
+        particles.push(new Particle());
+      }
+
+      function animateCanvas() {
+        ctx.clearRect(0, 0, width, height);
+        particles.forEach(p => {
+          p.update();
+          p.draw();
+        });
+        requestAnimationFrame(animateCanvas);
+      }
+      animateCanvas();
+
+      // 4. NAVBAR SCROLL EFFECT & MOBILE MENU TOGGLE
+      const navbar = document.getElementById('navbar');
+      const mobileToggle = document.getElementById('mobile-toggle');
+      const navLinks = document.getElementById('nav-links');
+
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 40) {
+          navbar.classList.add('scrolled');
+        } else {
+          navbar.classList.remove('scrolled');
+        }
+      });
+
+      mobileToggle.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+        mobileToggle.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
+      });
+
+      // Close mobile menu on link click
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+          navLinks.classList.remove('active');
+          mobileToggle.textContent = '☰';
+        });
+      });
+
+      // 5. ANIMATED STATS COUNTERS WITH INTERSECTION OBSERVER
+      const statNumbers = document.querySelectorAll('.stat-number');
+      let statsAnimated = false;
+
+      const statsObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !statsAnimated) {
+            statsAnimated = true;
+            statNumbers.forEach(stat => {
+              const target = parseFloat(stat.getAttribute('data-target'));
+              const precision = parseInt(stat.getAttribute('data-precision') || '0');
+              const suffix = stat.getAttribute('data-suffix') || '';
+              const duration = 2000;
+              const startTime = performance.now();
+
+              function updateCount(currentTime) {
+                const elapsedTime = currentTime - startTime;
+                const progress = Math.min(elapsedTime / duration, 1);
+                // Ease Out Quad
+                const currentVal = (progress * (2 - progress)) * target;
+
+                stat.textContent = currentVal.toFixed(precision) + (progress === 1 && target === 100 ? '+' : '') + suffix;
+
+                if (progress < 1) {
+                  requestAnimationFrame(updateCount);
+                }
+              }
+              requestAnimationFrame(updateCount);
+            });
+          }
+        });
+      }, { threshold: 0.4 });
+
+      const whyUsSection = document.getElementById('why-us');
+      if (whyUsSection) statsObserver.observe(whyUsSection);
+
+      // 6. TESTIMONIALS CAROUSEL
+      const slides = document.querySelectorAll('.testimonial-slide');
+      const dots = document.querySelectorAll('.carousel-dot');
+      let currentSlide = 0;
+
+      function showSlide(index) {
+        slides.forEach(s => s.classList.remove('active'));
+        dots.forEach(d => d.classList.remove('active'));
+
+        slides[index].classList.add('active');
+        dots[index].classList.add('active');
+        currentSlide = index;
+      }
+
+      dots.forEach(dot => {
+        dot.addEventListener('click', (e) => {
+          const idx = parseInt(e.target.getAttribute('data-index'));
+          showSlide(idx);
+        });
+      });
+
+      setInterval(() => {
+        let next = (currentSlide + 1) % slides.length;
+        showSlide(next);
+      }, 6000);
+
+      // 7. DRAG & DROP FILE UPLOADS
+      function setupDropzone(dropzoneId, inputId, nameDisplayId) {
+        const dropzone = document.getElementById(dropzoneId);
+        const input = document.getElementById(inputId);
+        const display = document.getElementById(nameDisplayId);
+
+        dropzone.addEventListener('click', () => input.click());
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+          dropzone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            dropzone.classList.add('dragover');
+          }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+          dropzone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('dragover');
+          }, false);
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+          const dt = e.dataTransfer;
+          const files = dt.files;
+          if (files.length) {
+            input.files = files;
+            display.textContent = 'Selected File: ' + files[0].name;
+          }
+        });
+
+        input.addEventListener('change', () => {
+          if (input.files.length) {
+            display.textContent = 'Selected File: ' + input.files[0].name;
+          }
+        });
+      }
+
+      setupDropzone('dropzone-resume', 'resumeFile', 'resume-file-name');
+      setupDropzone('dropzone-docs', 'supportingDocsFile', 'docs-file-name');
+
+      // 8. CAREER FORM SUBMISSION & LOCALSTORAGE
+      const careerForm = document.getElementById('career-form');
+      const successMsg = document.getElementById('form-success');
+
+      careerForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        // Validation check
+        if (!careerForm.checkValidity()) {
+          careerForm.reportValidity();
+          return;
+        }
+
+        const formData = {
+          fullName: document.getElementById('fullName').value,
+          contactNumber: document.getElementById('contactNumber').value,
+          emailAddress: document.getElementById('emailAddress').value,
+          linkedinUrl: document.getElementById('linkedinUrl').value,
+          roleApplying: document.getElementById('roleApplying').value,
+          yearsExperience: document.getElementById('yearsExperience').value,
+          currentLocation: document.getElementById('currentLocation').value,
+          coverLetter: document.getElementById('coverLetter').value,
+          submittedAt: new Date().toISOString()
+        };
+
+        // Temporary LocalStorage Save
+        let existingApps = JSON.parse(localStorage.getItem('apexon_applications') || '[]');
+        existingApps.push(formData);
+        localStorage.setItem('apexon_applications', JSON.stringify(existingApps));
+
+        // Animate & Show Success
+        careerForm.reset();
+        document.getElementById('resume-file-name').textContent = '';
+        document.getElementById('docs-file-name').textContent = '';
+        
+        successMsg.style.display = 'block';
+        setTimeout(() => {
+          successMsg.style.display = 'none';
+        }, 8000);
+      });
+
+    });
+  </script>
+</body>
+</html>
