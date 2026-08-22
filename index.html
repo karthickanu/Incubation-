@@ -1464,6 +1464,7 @@
               </div>
             </div>
 
+            <input type="hidden" name="to_email" value="info@apexon.work.gd">
             <!-- Honeypot field — hidden from people, catches simple spam bots -->
             <input type="text" name="career_hp_site" id="career-hp" class="file-input-hidden" tabindex="-1" autocomplete="off">
           </div>
@@ -2024,6 +2025,7 @@
         if (document.getElementById('contact-hp').value) return;
 
         const templateParams = {
+          to_email: 'info@apexon.work.gd',
           from_name: document.getElementById('contactName').value,
           from_email: document.getElementById('contactEmail').value,
           phone: document.getElementById('contactPhone').value,
