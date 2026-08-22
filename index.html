@@ -1989,16 +1989,29 @@
         careerErrorMsg.style.display = 'none';
 
         try {
-          await emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_CAREERS_TEMPLATE_ID, careerForm);
+          const subject = encodeURIComponent(`Job Application - ${formData.roleApplying}`);
 
-          careerForm.reset();
-          document.getElementById('resume-file-name').textContent = '';
-          document.getElementById('docs-file-name').textContent = '';
+          const body = encodeURIComponent(
+`Full Name: ${formData.fullName}
+Contact Number: ${formData.contactNumber}
+Email Address: ${formData.emailAddress}
+LinkedIn Profile: ${formData.linkedinUrl || 'Not Provided'}
+
+Role Applying For: ${formData.roleApplying}
+Years of Experience: ${formData.yearsExperience}
+Current Location: ${formData.currentLocation}
+
+Cover Letter:
+${formData.coverLetter || 'Not Provided'}
+
+Note: Please attach your Resume/CV before sending this email.`);
+
+          window.location.href = `mailto:careers@apexon.work.gd?cc=support@apexon.work.gd&subject=${subject}&body=${body}`;
 
           successMsg.style.display = 'block';
           setTimeout(() => { successMsg.style.display = 'none'; }, 8000);
         } catch (err) {
-          console.error('EmailJS careers form error:', err);
+          console.error('Career form error:', err);
           careerErrorMsg.style.display = 'block';
           setTimeout(() => { careerErrorMsg.style.display = 'none'; }, 8000);
         } finally {
