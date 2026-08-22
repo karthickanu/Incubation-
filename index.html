@@ -51,6 +51,21 @@
   }
   </script>
 
+  <!-- ==========================================================================
+       EmailJS SDK — powers the Careers application form and Contact form.
+       Public key is set below. Service ID / Template IDs are configured near
+       the bottom of the JS (search "EMAILJS_" ) — both forms currently share
+       one template; see the note there about adding a second.
+       ========================================================================== -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    if (typeof emailjs !== 'undefined') {
+      emailjs.init({ publicKey: 'GnYlXPYTXfCy53mIL' });
+    } else {
+      console.warn('EmailJS failed to load — forms will show a friendly error message until it is reachable.');
+    }
+  </script>
+
   <style>
     /* ==========================================================================
        1. CSS VARIABLES & SYSTEM SETUP (Liquid Glass & Apple Aesthetic)
@@ -75,6 +90,15 @@
 
       --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
       --transition-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+
+      /* Liquid Glass specular system */
+      --spec-edge: rgba(255, 255, 255, 0.32);
+      --spec-edge-soft: rgba(255, 255, 255, 0.04);
+      --spec-edge-hover: rgba(56, 189, 248, 0.55);
+      --neural-line: 56, 189, 248;
+      --neural-node-1: 56, 189, 248;
+      --neural-node-2: 129, 140, 248;
+      --neural-node-3: 192, 132, 252;
     }
 
     * {
@@ -94,8 +118,22 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
-    /* Ambient Dynamic Gradient Background */
-    #ambient-canvas {
+    /* Static ambient color wash — sits behind the animated neural canvas
+       for depth, at near-zero performance cost. */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(ellipse 800px 600px at 12% 8%, rgba(56, 189, 248, 0.09), transparent 60%),
+        radial-gradient(ellipse 700px 700px at 88% 28%, rgba(192, 132, 252, 0.07), transparent 60%),
+        radial-gradient(ellipse 900px 550px at 50% 95%, rgba(129, 140, 248, 0.06), transparent 60%);
+      pointer-events: none;
+    }
+
+    /* Live Neural Network Background */
+    #neural-canvas {
       position: fixed;
       top: 0;
       left: 0;
@@ -103,6 +141,33 @@
       height: 100vh;
       z-index: -1;
       pointer-events: none;
+    }
+
+    /* Accessible focus states — visible keyboard navigation */
+    a:focus-visible,
+    button:focus-visible,
+    input:focus-visible,
+    textarea:focus-visible,
+    select:focus-visible,
+    .file-dropzone:focus-visible {
+      outline: 2px solid var(--accent-primary);
+      outline-offset: 3px;
+      border-radius: 6px;
+    }
+
+    /* Respect reduced-motion preference */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+      }
+      .reveal {
+        opacity: 1 !important;
+        filter: none !important;
+        transform: none !important;
+      }
     }
 
     /* ==========================================================================
@@ -153,14 +218,15 @@
 
     /* Liquid Glass Card Styling */
     .glass-card {
-      background: var(--glass-bg);
+      background: linear-gradient(var(--glass-bg), var(--glass-bg)) padding-box,
+                  linear-gradient(135deg, var(--spec-edge), var(--spec-edge-soft) 35%, var(--spec-edge-soft) 65%, rgba(255, 255, 255, 0.18)) border-box;
+      border: 1px solid transparent;
       backdrop-filter: var(--glass-blur);
       -webkit-backdrop-filter: var(--glass-blur);
-      border: 1px solid var(--glass-border);
-      border-radius: 24px;
+      border-radius: 28px;
       padding: 2.5rem;
-      box-shadow: var(--glass-shadow);
-      transition: all 0.4s var(--transition-smooth);
+      box-shadow: var(--glass-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      transition: background 0.5s var(--transition-smooth), transform 0.5s var(--transition-smooth), box-shadow 0.5s var(--transition-smooth);
       position: relative;
       overflow: hidden;
     }
@@ -175,17 +241,33 @@
       background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
       transform: skewX(-20deg);
       transition: 0.75s;
+      z-index: 1;
     }
 
     .glass-card:hover::before {
       left: 150%;
     }
 
+    /* Cursor-tracked spotlight — mousemove sets --mx / --my via JS */
+    .glass-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(480px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.07), transparent 45%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+
+    .glass-card:hover::after {
+      opacity: 1;
+    }
+
     .glass-card:hover {
-      background: var(--glass-bg-hover);
-      border-color: var(--glass-border-glow);
+      background: linear-gradient(var(--glass-bg-hover), var(--glass-bg-hover)) padding-box,
+                  linear-gradient(135deg, var(--spec-edge-hover), rgba(129, 140, 248, 0.18) 35%, rgba(192, 132, 252, 0.16) 65%, rgba(56, 189, 248, 0.45)) border-box;
       transform: translateY(-6px) scale(1.01);
-      box-shadow: 0 30px 60px rgba(56, 189, 248, 0.15);
+      box-shadow: 0 30px 60px rgba(56, 189, 248, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.12);
     }
 
     /* Buttons */
@@ -218,15 +300,18 @@
     }
 
     .btn-secondary {
-      background: rgba(255, 255, 255, 0.05);
+      background: linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05)) padding-box,
+                  linear-gradient(135deg, var(--spec-edge), rgba(255, 255, 255, 0.04) 50%, rgba(255, 255, 255, 0.16)) border-box;
+      border: 1px solid transparent;
       color: var(--text-main);
-      border: 1px solid var(--glass-border);
       backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
     }
 
     .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.12);
-      border-color: var(--text-main);
+      background: linear-gradient(rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.12)) padding-box,
+                  linear-gradient(135deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.3)) border-box;
       transform: translateY(-2px);
     }
 
@@ -947,12 +1032,83 @@
         grid-template-columns: 1fr;
       }
     }
+
+    /* ==========================================================================
+       16. SCROLL REVEAL SYSTEM
+       Cards resolve into focus out of the glass blur; headers rise gently.
+       Reduced-motion users get the fallback in the media query above.
+       ========================================================================== */
+    .reveal {
+      opacity: 0;
+      filter: blur(8px);
+      transition: opacity 0.7s var(--transition-smooth), filter 0.7s var(--transition-smooth), transform 0.7s var(--transition-smooth);
+    }
+
+    .reveal.in-view {
+      opacity: 1;
+      filter: blur(0);
+    }
+
+    .reveal-rise {
+      transform: translateY(24px);
+    }
+
+    .reveal-rise.in-view {
+      transform: translateY(0);
+    }
+
+    /* ==========================================================================
+       17. CONTACT FORM + INFO LAYOUT
+       ========================================================================== */
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .contact-info-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .contact-form-card h3 {
+      font-size: 1.3rem;
+      color: #fff;
+      margin-bottom: 0.4rem;
+    }
+
+    .contact-form-intro {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .form-error-message {
+      display: none;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      color: #f87171;
+      padding: 1.25rem;
+      border-radius: 16px;
+      text-align: center;
+      margin-top: 1.5rem;
+      font-weight: 600;
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 992px) {
+      .contact-layout {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body>
 
-  <!-- Background Animated Canvas -->
-  <canvas id="ambient-canvas"></canvas>
+  <!-- Live Neural Network Background -->
+  <canvas id="neural-canvas"></canvas>
 
   <!-- Loading Screen -->
   <div id="loader">
@@ -1242,23 +1398,23 @@
           <div class="form-grid">
             <div class="form-group">
               <label for="fullName">Full Name *</label>
-              <input type="text" id="fullName" class="form-control" placeholder="John Doe" required>
+              <input type="text" id="fullName" name="fullName" class="form-control" placeholder="John Doe" required>
             </div>
             <div class="form-group">
               <label for="contactNumber">Contact Number *</label>
-              <input type="tel" id="contactNumber" class="form-control" placeholder="+1 (555) 000-0000" required>
+              <input type="tel" id="contactNumber" name="contactNumber" class="form-control" placeholder="+1 (555) 000-0000" required>
             </div>
             <div class="form-group">
               <label for="emailAddress">Email Address *</label>
-              <input type="email" id="emailAddress" class="form-control" placeholder="john@example.com" required>
+              <input type="email" id="emailAddress" name="emailAddress" class="form-control" placeholder="john@example.com" required>
             </div>
             <div class="form-group">
               <label for="linkedinUrl">LinkedIn Profile URL</label>
-              <input type="url" id="linkedinUrl" class="form-control" placeholder="https://linkedin.com/in/username">
+              <input type="url" id="linkedinUrl" name="linkedinUrl" class="form-control" placeholder="https://linkedin.com/in/username">
             </div>
             <div class="form-group">
               <label for="roleApplying">Role Applying For *</label>
-              <select id="roleApplying" class="form-control" required>
+              <select id="roleApplying" name="roleApplying" class="form-control" required>
                 <option value="" disabled selected>Select a Position</option>
                 <option value="IT Support Engineer">IT Support Engineer</option>
                 <option value="Systems Administrator">Systems Administrator</option>
@@ -1276,15 +1432,15 @@
             </div>
             <div class="form-group">
               <label for="yearsExperience">Years of Experience *</label>
-              <input type="number" id="yearsExperience" class="form-control" min="0" max="40" placeholder="e.g. 5" required>
+              <input type="number" id="yearsExperience" name="yearsExperience" class="form-control" min="0" max="40" placeholder="e.g. 5" required>
             </div>
             <div class="form-group full-width">
               <label for="currentLocation">Current Location *</label>
-              <input type="text" id="currentLocation" class="form-control" placeholder="City, Country" required>
+              <input type="text" id="currentLocation" name="currentLocation" class="form-control" placeholder="City, Country" required>
             </div>
             <div class="form-group full-width">
               <label for="coverLetter">Cover Letter</label>
-              <textarea id="coverLetter" class="form-control" rows="4" placeholder="Briefly describe your passion and achievements..."></textarea>
+              <textarea id="coverLetter" name="coverLetter" class="form-control" rows="4" placeholder="Briefly describe your passion and achievements..."></textarea>
             </div>
 
             <!-- Drag & Drop File Upload Fields -->
@@ -1294,7 +1450,7 @@
                 <div class="dropzone-icon">📄</div>
                 <div>Drag & Drop your Resume here or <strong>Browse File</strong></div>
                 <div class="file-name-display" id="resume-file-name"></div>
-                <input type="file" id="resumeFile" class="file-input-hidden" accept=".pdf,.doc,.docx" required>
+                <input type="file" id="resumeFile" name="resumeFile" class="file-input-hidden" accept=".pdf,.doc,.docx" required>
               </div>
             </div>
 
@@ -1304,9 +1460,12 @@
                 <div class="dropzone-icon">📁</div>
                 <div>Drag & Drop Certifications / Portfolio or <strong>Browse File</strong></div>
                 <div class="file-name-display" id="docs-file-name"></div>
-                <input type="file" id="supportingDocsFile" class="file-input-hidden" accept=".pdf,.zip,.doc,.docx">
+                <input type="file" id="supportingDocsFile" name="supportingDocsFile" class="file-input-hidden" accept=".pdf,.zip,.doc,.docx">
               </div>
             </div>
+
+            <!-- Honeypot field — hidden from people, catches simple spam bots -->
+            <input type="text" name="career_hp_site" id="career-hp" class="file-input-hidden" tabindex="-1" autocomplete="off">
           </div>
 
           <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 2rem;">Submit Application</button>
@@ -1314,6 +1473,9 @@
 
         <div id="form-success" class="form-success-message">
           🎉 Application Submitted Successfully! Our talent acquisition team will review your credentials and contact you shortly.
+        </div>
+        <div id="form-error" class="form-error-message">
+          ⚠️ Something went wrong submitting your application. Please email your resume directly to info@apexon.work.gd.
         </div>
       </div>
     </div>
@@ -1352,42 +1514,89 @@
   <!-- CONTACT SECTION -->
   <section id="contact">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header reveal reveal-rise">
         <span class="section-subtitle">Get In Touch</span>
         <h2 class="section-title">Contact ApexOn</h2>
         <p class="section-description">Reach out to our global team for enterprise inquiries, support, or partnership opportunities.</p>
       </div>
 
-      <div class="contact-grid">
-        <div class="glass-card contact-card">
-          <h3>📬 General & Support Enquiries</h3>
-          <ul class="contact-info-list">
-            <li><strong>Email:</strong> <a href="mailto:info@apexon.work.gd">info@apexon.work.gd</a></li>
-            <li><strong>Support:</strong> <a href="mailto:support@apexon.work.gd">support@apexon.work.gd</a></li>
-            <li><strong>Service Hours:</strong> 24x7x365 Global Operations</li>
-          </ul>
+      <div class="contact-layout">
+        <div class="glass-card contact-form-card reveal">
+          <h3>Send Us a Message</h3>
+          <p class="contact-form-intro">Fill this in and our team will respond within one business day.</p>
+
+          <form id="contact-form" novalidate>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="contactName">Full Name *</label>
+                <input type="text" id="contactName" name="from_name" class="form-control" placeholder="Jane Smith" required>
+              </div>
+              <div class="form-group">
+                <label for="contactEmail">Email Address *</label>
+                <input type="email" id="contactEmail" name="from_email" class="form-control" placeholder="jane@company.com" required>
+              </div>
+              <div class="form-group">
+                <label for="contactPhone">Phone Number</label>
+                <input type="tel" id="contactPhone" name="phone" class="form-control" placeholder="+1 (555) 000-0000">
+              </div>
+              <div class="form-group">
+                <label for="contactReason">Reason for Contact *</label>
+                <select id="contactReason" name="reason" class="form-control" required>
+                  <option value="" disabled selected>Select an option</option>
+                  <option value="New Project / Quotation">New Project / Quotation</option>
+                  <option value="Managed IT Support">Managed IT Support</option>
+                  <option value="GCC Deployment">GCC Deployment</option>
+                  <option value="AI & Automation">AI & Automation</option>
+                  <option value="Partnership">Partnership</option>
+                  <option value="General Enquiry">General Enquiry</option>
+                </select>
+              </div>
+              <div class="form-group full-width">
+                <label for="contactMessage">Message *</label>
+                <textarea id="contactMessage" name="message" class="form-control" rows="5" placeholder="Tell us about your requirements..." required></textarea>
+              </div>
+              <!-- Honeypot field — hidden from people, catches simple spam bots -->
+              <input type="text" name="company_site" id="contact-hp" class="file-input-hidden" tabindex="-1" autocomplete="off">
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1.75rem;">Send Message</button>
+          </form>
+
+          <div id="contact-form-success" class="form-success-message">✅ Message sent successfully! We'll get back to you within 1 business day.</div>
+          <div id="contact-form-error" class="form-error-message">⚠️ Something went wrong sending your message. Please email us directly at info@apexon.work.gd.</div>
         </div>
 
-        <div class="glass-card contact-card">
-          <h3>📍 Coimbatore Office</h3>
-          <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">
-            <strong>ApexOn LLC – Coimbatore Branch</strong><br>
-            TIDEL Park Coimbatore<br>
-            ELCOT-SEZ, IT/ITES, Villankurichi Road<br>
-            Aerodrome Post, Coimbatore – 641014<br>
-            Tamil Nadu, India
-          </p>
-        </div>
+        <div class="contact-info-stack">
+          <div class="glass-card contact-card reveal">
+            <h3>📬 General & Support Enquiries</h3>
+            <ul class="contact-info-list">
+              <li><strong>Email:</strong> <a href="mailto:info@apexon.work.gd">info@apexon.work.gd</a></li>
+              <li><strong>Support:</strong> <a href="mailto:support@apexon.work.gd">support@apexon.work.gd</a></li>
+              <li><strong>Service Hours:</strong> 24x7x365 Global Operations</li>
+            </ul>
+          </div>
 
-        <div class="glass-card contact-card">
-          <h3>📍 Bangalore Office</h3>
-          <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">
-            <strong>ApexOn LLC – Bangalore Branch</strong><br>
-            Manyata Tech Park<br>
-            Nagawara, Outer Ring Road<br>
-            Bengaluru – 560045<br>
-            Karnataka, India
-          </p>
+          <div class="glass-card contact-card reveal">
+            <h3>📍 Coimbatore Office</h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">
+              <strong>ApexOn LLC – Coimbatore Branch</strong><br>
+              TIDEL Park Coimbatore<br>
+              ELCOT-SEZ, IT/ITES, Villankurichi Road<br>
+              Aerodrome Post, Coimbatore – 641014<br>
+              Tamil Nadu, India
+            </p>
+          </div>
+
+          <div class="glass-card contact-card reveal">
+            <h3>📍 Bangalore Office</h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">
+              <strong>ApexOn LLC – Bangalore Branch</strong><br>
+              Manyata Tech Park<br>
+              Nagawara, Outer Ring Road<br>
+              Bengaluru – 560045<br>
+              Karnataka, India
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -1458,65 +1667,152 @@
         loader.style.visibility = 'hidden';
       }, 500);
 
-      // 3. AMBIENT LIQUID GLASS CANVAS BACKGROUND
-      const canvas = document.getElementById('ambient-canvas');
+      // 3. LIVE NEURAL NETWORK BACKGROUND
+      // Nodes drift slowly, synapses connect nearby nodes, and small pulses
+      // travel the active connections like signals firing across a network.
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const canvas = document.getElementById('neural-canvas');
       const ctx = canvas.getContext('2d');
-      let width, height;
-      let particles = [];
+      let width, height, dpr;
+      let nnNodes = [];
+      let nnPulses = [];
+      const nnMouse = { x: -9999, y: -9999, active: false };
+      const NODE_COLORS = ['56, 189, 248', '129, 140, 248', '192, 132, 252'];
+      const LINK_COLOR = '56, 189, 248';
+      const LINK_DIST = () => Math.min(160, Math.max(110, width / 9));
 
       function resizeCanvas() {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        canvas.style.width = width + 'px';
+        canvas.style.height = height + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       }
 
-      window.addEventListener('resize', resizeCanvas);
-      resizeCanvas();
-
-      class Particle {
+      class NeuralNode {
         constructor() {
           this.x = Math.random() * width;
           this.y = Math.random() * height;
-          this.radius = Math.random() * 150 + 50;
-          this.vx = (Math.random() - 0.5) * 0.4;
-          this.vy = (Math.random() - 0.5) * 0.4;
-          this.color = Math.random() > 0.5 ? 'rgba(56, 189, 248, ' : 'rgba(129, 140, 248, ';
-          this.alpha = Math.random() * 0.08 + 0.02;
+          this.vx = (Math.random() - 0.5) * 0.25;
+          this.vy = (Math.random() - 0.5) * 0.25;
+          this.radius = Math.random() * 1.4 + 1.3;
+          this.color = NODE_COLORS[Math.floor(Math.random() * NODE_COLORS.length)];
+          this.phase = Math.random() * Math.PI * 2;
+          this.speed = 0.0009 + Math.random() * 0.0009;
         }
 
-        update() {
+        update(time) {
           this.x += this.vx;
           this.y += this.vy;
-
-          if (this.x < -this.radius) this.x = width + this.radius;
-          if (this.x > width + this.radius) this.x = -this.radius;
-          if (this.y < -this.radius) this.y = height + this.radius;
-          if (this.y > height + this.radius) this.y = -this.radius;
+          if (this.x < 0 || this.x > width) this.vx *= -1;
+          if (this.y < 0 || this.y > height) this.vy *= -1;
+          this.x = Math.max(0, Math.min(width, this.x));
+          this.y = Math.max(0, Math.min(height, this.y));
+          this.glow = 0.5 + 0.5 * Math.sin(time * this.speed + this.phase);
         }
 
         draw() {
+          const alpha = 0.4 + this.glow * 0.45;
           ctx.beginPath();
-          let gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius);
-          gradient.addColorStop(0, this.color + this.alpha + ')');
-          gradient.addColorStop(1, this.color + '0)');
-          ctx.fillStyle = gradient;
-          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${this.color}, ${alpha})`;
+          ctx.arc(this.x, this.y, this.radius + this.glow * 0.7, 0, Math.PI * 2);
           ctx.fill();
         }
       }
 
-      for (let i = 0; i < 15; i++) {
-        particles.push(new Particle());
+      function seedNodes() {
+        const count = Math.min(Math.max(Math.floor((width * height) / 16000), 40), 110);
+        nnNodes = [];
+        for (let i = 0; i < count; i++) nnNodes.push(new NeuralNode());
       }
 
-      function animateCanvas() {
-        ctx.clearRect(0, 0, width, height);
-        particles.forEach(p => {
-          p.update();
-          p.draw();
-        });
-        requestAnimationFrame(animateCanvas);
+      function drawConnections(maxDist) {
+        const activeEdges = [];
+        for (let i = 0; i < nnNodes.length; i++) {
+          for (let j = i + 1; j < nnNodes.length; j++) {
+            const a = nnNodes[i], b = nnNodes[j];
+            const dx = a.x - b.x, dy = a.y - b.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < maxDist) {
+              let alpha = (1 - dist / maxDist) * 0.16;
+              if (nnMouse.active) {
+                const mdx = (a.x + b.x) / 2 - nnMouse.x;
+                const mdy = (a.y + b.y) / 2 - nnMouse.y;
+                const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
+                if (mdist < 220) alpha += (1 - mdist / 220) * 0.3;
+              }
+              ctx.beginPath();
+              ctx.strokeStyle = `rgba(${LINK_COLOR}, ${Math.min(alpha, 0.5)})`;
+              ctx.lineWidth = 1;
+              ctx.moveTo(a.x, a.y);
+              ctx.lineTo(b.x, b.y);
+              ctx.stroke();
+              activeEdges.push({ a, b });
+            }
+          }
+        }
+        return activeEdges;
       }
-      animateCanvas();
+
+      function maybeSpawnPulse(edges) {
+        if (edges.length && Math.random() < 0.025 && nnPulses.length < 24) {
+          const e = edges[Math.floor(Math.random() * edges.length)];
+          nnPulses.push({ from: e.a, to: e.b, t: 0, speed: 0.006 + Math.random() * 0.007 });
+        }
+      }
+
+      function drawPulses() {
+        nnPulses.forEach(p => {
+          p.t += p.speed;
+          const x = p.from.x + (p.to.x - p.from.x) * p.t;
+          const y = p.from.y + (p.to.y - p.from.y) * p.t;
+          ctx.beginPath();
+          ctx.fillStyle = 'rgba(226, 244, 255, 0.9)';
+          ctx.arc(x, y, 2, 0, Math.PI * 2);
+          ctx.fill();
+        });
+        nnPulses = nnPulses.filter(p => p.t < 1);
+      }
+
+      function renderFrame(time) {
+        ctx.clearRect(0, 0, width, height);
+        const maxDist = LINK_DIST();
+        nnNodes.forEach(n => n.update(time));
+        const edges = drawConnections(maxDist);
+        nnNodes.forEach(n => n.draw());
+        if (!prefersReducedMotion) {
+          maybeSpawnPulse(edges);
+          drawPulses();
+        }
+      }
+
+      function animateNeuralNetwork(time) {
+        renderFrame(time);
+        requestAnimationFrame(animateNeuralNetwork);
+      }
+
+      window.addEventListener('resize', () => {
+        resizeCanvas();
+        seedNodes();
+      });
+      document.addEventListener('mousemove', (e) => {
+        nnMouse.x = e.clientX;
+        nnMouse.y = e.clientY;
+        nnMouse.active = true;
+      });
+      document.addEventListener('mouseleave', () => { nnMouse.active = false; });
+
+      resizeCanvas();
+      seedNodes();
+
+      if (prefersReducedMotion) {
+        renderFrame(0);
+      } else {
+        requestAnimationFrame(animateNeuralNetwork);
+      }
 
       // 4. NAVBAR SCROLL EFFECT & MOBILE MENU TOGGLE
       const navbar = document.getElementById('navbar');
@@ -1544,41 +1840,36 @@
         });
       });
 
-      // 5. ANIMATED STATS COUNTERS WITH INTERSECTION OBSERVER
-      const statNumbers = document.querySelectorAll('.stat-number');
-      let statsAnimated = false;
+      // 5. ANIMATED STATS COUNTERS
+      // Triggered per-card from the scroll-reveal observer in step 10, not a
+      // whole-section visibility threshold — on a tall stacked mobile layout,
+      // the section can be taller than the viewport itself will ever show,
+      // so a whole-section threshold may never be reachable. Per-card is robust
+      // regardless of section height.
+      function animateStatCounter(stat) {
+        if (stat.dataset.counted === 'true') return;
+        stat.dataset.counted = 'true';
 
-      const statsObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting && !statsAnimated) {
-            statsAnimated = true;
-            statNumbers.forEach(stat => {
-              const target = parseFloat(stat.getAttribute('data-target'));
-              const precision = parseInt(stat.getAttribute('data-precision') || '0');
-              const suffix = stat.getAttribute('data-suffix') || '';
-              const duration = 2000;
-              const startTime = performance.now();
+        const target = parseFloat(stat.getAttribute('data-target'));
+        const precision = parseInt(stat.getAttribute('data-precision') || '0');
+        const suffix = stat.getAttribute('data-suffix') || '';
+        const duration = 2000;
+        const startTime = performance.now();
 
-              function updateCount(currentTime) {
-                const elapsedTime = currentTime - startTime;
-                const progress = Math.min(elapsedTime / duration, 1);
-                // Ease Out Quad
-                const currentVal = (progress * (2 - progress)) * target;
+        function updateCount(currentTime) {
+          const elapsedTime = currentTime - startTime;
+          const progress = Math.min(elapsedTime / duration, 1);
+          // Ease Out Quad
+          const currentVal = (progress * (2 - progress)) * target;
 
-                stat.textContent = currentVal.toFixed(precision) + (progress === 1 && target === 100 ? '+' : '') + suffix;
+          stat.textContent = currentVal.toFixed(precision) + (progress === 1 && target === 100 ? '+' : '') + suffix;
 
-                if (progress < 1) {
-                  requestAnimationFrame(updateCount);
-                }
-              }
-              requestAnimationFrame(updateCount);
-            });
+          if (progress < 1) {
+            requestAnimationFrame(updateCount);
           }
-        });
-      }, { threshold: 0.4 });
-
-      const whyUsSection = document.getElementById('why-us');
-      if (whyUsSection) statsObserver.observe(whyUsSection);
+        }
+        requestAnimationFrame(updateCount);
+      }
 
       // 6. TESTIMONIALS CAROUSEL
       const slides = document.querySelectorAll('.testimonial-slide');
@@ -1647,18 +1938,32 @@
       setupDropzone('dropzone-resume', 'resumeFile', 'resume-file-name');
       setupDropzone('dropzone-docs', 'supportingDocsFile', 'docs-file-name');
 
-      // 8. CAREER FORM SUBMISSION & LOCALSTORAGE
+      // ---- EmailJS configuration ----
+      // NOTE: only one template (template_7gebsgm) has been created so far, so
+      // both forms currently send through it. Fields that don't exist in that
+      // template's variable list will just arrive blank for whichever form
+      // didn't design it. Create a second template in EmailJS and swap the
+      // CONTACT (or CAREERS) line below once you have its ID.
+      const EMAILJS_SERVICE_ID = 'service_y5fbxdl';
+      const EMAILJS_CAREERS_TEMPLATE_ID = 'template_7gebsgm';
+      const EMAILJS_CONTACT_TEMPLATE_ID = 'template_7gebsgm';
+
+      // 8. CAREER FORM SUBMISSION — EmailJS + LocalStorage backup
       const careerForm = document.getElementById('career-form');
       const successMsg = document.getElementById('form-success');
+      const careerErrorMsg = document.getElementById('form-error');
+      const careerSubmitBtn = careerForm.querySelector('button[type="submit"]');
 
-      careerForm.addEventListener('submit', (e) => {
+      careerForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        // Validation check
         if (!careerForm.checkValidity()) {
           careerForm.reportValidity();
           return;
         }
+
+        // Honeypot — if this hidden field has a value, silently drop the submit
+        if (document.getElementById('career-hp').value) return;
 
         const formData = {
           fullName: document.getElementById('fullName').value,
@@ -1672,20 +1977,134 @@
           submittedAt: new Date().toISOString()
         };
 
-        // Temporary LocalStorage Save
+        // Local backup copy, independent of whether the email send succeeds
         let existingApps = JSON.parse(localStorage.getItem('apexon_applications') || '[]');
         existingApps.push(formData);
         localStorage.setItem('apexon_applications', JSON.stringify(existingApps));
 
-        // Animate & Show Success
-        careerForm.reset();
-        document.getElementById('resume-file-name').textContent = '';
-        document.getElementById('docs-file-name').textContent = '';
-        
-        successMsg.style.display = 'block';
-        setTimeout(() => {
-          successMsg.style.display = 'none';
-        }, 8000);
+        const originalLabel = careerSubmitBtn.textContent;
+        careerSubmitBtn.disabled = true;
+        careerSubmitBtn.textContent = 'Submitting...';
+        careerErrorMsg.style.display = 'none';
+
+        try {
+          await emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_CAREERS_TEMPLATE_ID, careerForm);
+
+          careerForm.reset();
+          document.getElementById('resume-file-name').textContent = '';
+          document.getElementById('docs-file-name').textContent = '';
+
+          successMsg.style.display = 'block';
+          setTimeout(() => { successMsg.style.display = 'none'; }, 8000);
+        } catch (err) {
+          console.error('EmailJS careers form error:', err);
+          careerErrorMsg.style.display = 'block';
+          setTimeout(() => { careerErrorMsg.style.display = 'none'; }, 8000);
+        } finally {
+          careerSubmitBtn.disabled = false;
+          careerSubmitBtn.textContent = originalLabel;
+        }
+      });
+
+      // 9. CONTACT FORM SUBMISSION — EmailJS
+      const contactForm = document.getElementById('contact-form');
+      const contactSuccessMsg = document.getElementById('contact-form-success');
+      const contactErrorMsg = document.getElementById('contact-form-error');
+      const contactSubmitBtn = contactForm.querySelector('button[type="submit"]');
+
+      contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        if (!contactForm.checkValidity()) {
+          contactForm.reportValidity();
+          return;
+        }
+
+        // Honeypot — if this hidden field has a value, silently drop the submit
+        if (document.getElementById('contact-hp').value) return;
+
+        const templateParams = {
+          from_name: document.getElementById('contactName').value,
+          from_email: document.getElementById('contactEmail').value,
+          phone: document.getElementById('contactPhone').value,
+          reason: document.getElementById('contactReason').value,
+          message: document.getElementById('contactMessage').value
+        };
+
+        const originalLabel = contactSubmitBtn.textContent;
+        contactSubmitBtn.disabled = true;
+        contactSubmitBtn.textContent = 'Sending...';
+        contactErrorMsg.style.display = 'none';
+
+        try {
+          await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_CONTACT_TEMPLATE_ID, templateParams);
+
+          contactForm.reset();
+          contactSuccessMsg.style.display = 'block';
+          setTimeout(() => { contactSuccessMsg.style.display = 'none'; }, 8000);
+        } catch (err) {
+          console.error('EmailJS contact form error:', err);
+          contactErrorMsg.style.display = 'block';
+          setTimeout(() => { contactErrorMsg.style.display = 'none'; }, 8000);
+        } finally {
+          contactSubmitBtn.disabled = false;
+          contactSubmitBtn.textContent = originalLabel;
+        }
+      });
+
+      // 10. SCROLL REVEAL — cards resolve out of the glass blur, headers rise in.
+      // Stat counters (step 5) are triggered here too, per-card, so they fire
+      // reliably no matter how tall the section is relative to the viewport.
+      function initScrollReveal() {
+        document.querySelectorAll('.section-header').forEach(el => el.classList.add('reveal', 'reveal-rise'));
+        document.querySelectorAll('.service-card, .stat-card, .industry-card, .about-card, .careers-portal, .testimonial-carousel, .map-container').forEach(el => el.classList.add('reveal'));
+
+        const revealEls = document.querySelectorAll('.reveal');
+
+        if (prefersReducedMotion) {
+          revealEls.forEach(el => el.classList.add('in-view'));
+          document.querySelectorAll('.stat-number').forEach(stat => {
+            const target = parseFloat(stat.getAttribute('data-target'));
+            const precision = parseInt(stat.getAttribute('data-precision') || '0');
+            const suffix = stat.getAttribute('data-suffix') || '';
+            stat.textContent = target.toFixed(precision) + (target === 100 ? '+' : '') + suffix;
+          });
+          return;
+        }
+
+        const groups = new Map();
+        revealEls.forEach(el => {
+          const parent = el.parentElement;
+          if (!groups.has(parent)) groups.set(parent, []);
+          groups.get(parent).push(el);
+        });
+        groups.forEach(list => {
+          list.forEach((el, i) => {
+            el.style.transitionDelay = (Math.min(i, 6) * 90) + 'ms';
+          });
+        });
+
+        const revealObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('in-view');
+              entry.target.querySelectorAll('.stat-number').forEach(animateStatCounter);
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+        revealEls.forEach(el => revealObserver.observe(el));
+      }
+      initScrollReveal();
+
+      // 11. GLASS CARD CURSOR SPOTLIGHT
+      document.querySelectorAll('.glass-card').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          card.style.setProperty('--mx', (e.clientX - rect.left) + 'px');
+          card.style.setProperty('--my', (e.clientY - rect.top) + 'px');
+        });
       });
 
     });
